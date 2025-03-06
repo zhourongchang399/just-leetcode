@@ -38,6 +38,16 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * @author: Zc
+ * @description: 水桶存多少水取决于最短的木板，所以容量问题就可写为 Min(left,right) * width;
+ *               继续简化问题，一个数组组成的木板高度能容纳水最多的两个根木板，其实就是 width 和 Min(left,right) 都达到相对最大即可；
+ *               即从数组两边开始遍历可以更快找到，相对最大 width，左右指针指向的木板即可计算当前容器容量，并维护最大值，因为 width 会随着
+ *               指针移动变小，所以只有提高 height 才有可能比当前容器大，即移动左右指针中指向值最小的指针，直到相遇为止，即可得到最终答案；
+ * @date: 2025/3/6 14:42
+ * @param null
+ * @return 
+ */
 class Solution {
     public int maxArea(int[] height) {
         int left = 0, right = height.length - 1;

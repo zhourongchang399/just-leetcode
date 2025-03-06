@@ -47,6 +47,17 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * @author: Zc
+ * @description: 寻找两数之和等于目标值，直觉是两层遍历，枚举所有可能即可得到答案，但是时间复杂度是 O(n^2)，不采纳
+ *               时间复杂度高主要问题在查询数据中，只有遍历数组才可得到结果，所以优化方向就是用哈希表替代数组，
+ *               只需遍历一遍数组，每次都从哈希表从查询 targetValue - currentValue 是否存在，存在即可通过Key获取Value，
+ *               即数组中的下标，即可得到答案，若不存在，则存入（currentValue，currentIndex）到哈希表中，最坏的结果也只是时间复杂度 O(n)
+ *               类似于，现实生活中，打电话没人接听，但是记录拨通记录，待目标人物有空了（遍历到了）查看通话记录后回拨，即可得到回复（答案）
+ * @date: 2025/3/6 14:42
+ * @param null
+ * @return 
+ */
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         Map<Integer, Integer> map = new HashMap<>();

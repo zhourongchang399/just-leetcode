@@ -49,6 +49,13 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * @author: Zc
+ * @description: TODO
+ * @date: 2025/3/6 15:05
+ * @param null
+ * @return 
+ */
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         List<List<Integer>> res = new ArrayList<>();

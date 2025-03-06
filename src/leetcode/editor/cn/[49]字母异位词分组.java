@@ -37,17 +37,31 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * @author: Zc
+ * @description: 分组，即提取数据集中每个数据的相似特征以区分它们，就可利用哈希表 key 不可重复（去重）的特点实现，
+ *               首先提取目标数据的相似特征（异位词排序后相同，或异位词拆分每个单词后数量相同）作为 key，继而去哈希表中查询是否存在该 key
+ *               若存在，则更新 Value（List<String>）, 否则，new List<String> 并写入当前数据，即可实现异位词分组功能
+ * @date: 2025/3/6 14:43
+ * @param null
+ * @return
+ */
 class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        return new ArrayList<>(Arrays.stream(strs)
-                .collect(Collectors.groupingBy(str -> {
-                    // 返回 str 排序后的结果。
-                    // 按排序后的结果来grouping by，算子类似于 sql 里的 group by。
-                    char[] array = str.toCharArray();
-                    Arrays.sort(array);
-                    return new String(array);
-                })).values());
+        Map<String, List<String>> map = new HashMap<>();
+        for (String str : strs) {
+            // 获取 char 数组
+            char[] chars = str.toCharArray();
+            // 排序
+            Arrays.sort(chars);
+            // 组装
+            String key = new String(chars);
+            List<String> currentList = map.getOrDefault(key, new ArrayList<String>());
+            currentList.add(str);
+            // 更新
+            map.put(key, currentList);
+        }
+        return map.values().stream().collect(Collectors.toList());
     }
 }
-
 //leetcode submit region end(Prohibit modification and deletion)

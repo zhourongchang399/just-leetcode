@@ -35,6 +35,15 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * @author: Zc
+ * @description: 要想将零元素移动到末尾，同时不打乱非零元素相对顺序，即不考虑零的顺序，只保证非零元素顺序即可；
+ *               要想保证非零元素顺序，只需要0开始遍历，将当前位置或以后遇到的第一个非零元素替换过来即可，同时也能保证零元素被替换到数组末尾；
+ *               要想实现该功能，通过快慢指针，慢指针指向当前顺序需要填充的非零元素位置，快指针则从当前位置或上次非零元素位置一直移动到它遇到的下一个非零元素，完成替换即可；
+ * @date: 2025/3/6 14:42
+ * @param null
+ * @return
+ */
 class Solution {
     public void moveZeroes(int[] nums) {
         int nonZeroIndex = 0;  // 用于标记非零元素的位置
