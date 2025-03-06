@@ -51,7 +51,10 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 /**
  * @author: Zc
- * @description: TODO
+ * @description: 三数之和问题可以简化为两数之和问题，但是如果使用哈希表，则会导致多个重复解的去重工作非常耗时，同时还需维护一个哈希表；
+ *               所以，可以利用头尾双指针，遍历有序数组求两数之和，同时只需跳过前后值一致的位置，即可保证不出现重复解；
+ *               即先排序数组，遍历数组，当前位置的头指针为 currentIndex + 1，尾指针指向末尾，两数之和大于 currentValue，
+ *               则左移尾指针，否则右移头指针，相等则存入列表中，并跳过所有重复值以规避重复结果，即可得到当前值的两数之和所有唯一可能。
  * @date: 2025/3/6 15:05
  * @param null
  * @return 
