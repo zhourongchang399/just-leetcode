@@ -37,90 +37,23 @@
 /**
  * @author: Zc
  * @description: 原地算法，轮转矩阵只需要遍历外一个外层，每个值轮转 matrix.lenght - 1 次，并缩圈，一共只需要轮转 matrix.lenght / 2 次即可；
+ *               第二个办法，观察轮转的位置，即为每个值轮转 matrix.lenght - 1 次，行只需 matrix.length / 2 和列只需 (matrix.length + 1) / 2 位置的值，
+ *               轮转 matrix.lenght - 1 个位置即可；
  * @date: 2025/3/15 12:33
  * @param null
  * @return
  */
 class Solution {
     public void rotate(int[][] matrix) {
-
-        int i = 0, j = 0;
-        int rowStart = 0, rowEnd = matrix.length - 1, colStart = 0, colEnd = matrix[0].length - 1;
-        int cycle = 0;
-        int swapValue = 0;
-        int rotate = 0;
-
-        // 缩圈
-        while (cycle < matrix.length / 2) {
-
-            i = rowStart;
-            j = colStart;
-
-            // 记录前一个替换的值
-            swapValue = 0;
-
-            // 基础初始轮转次数
-            rotate = cycle * 2;
-
-            // 轮转次数
-            while (rotate < matrix.length - 1) {
-
-                // 从左到右
-                while (j <= colEnd) {
-                    swapValue = swap(matrix, i, j, swapValue);
-                    j++;
-                }
-                j--;
-                i++;
-
-                // 从上到下
-                while (i <= rowEnd) {
-                    swapValue = swap(matrix, i, j, swapValue);
-                    i++;
-                }
-                i--;
-                j--;
-
-                // 从右到左
-                while (j >= colStart) {
-                    swapValue = swap(matrix, i, j, swapValue);
-                    j--;
-                }
-                j++;
-                i--;
-
-                // 从下到上
-                while (i >= rowStart) {
-                    swapValue = swap(matrix, i, j, swapValue);
-                    i--;
-                }
-                i++;
-                j++;
-
-                rotate++;
+        for (int i = 0; i < matrix.length / 2; i++) {
+            for (int j = 0; j < (matrix.length + 1) / 2; j++) {
+                int temp = matrix[i][j];
+                matrix[i][j] = matrix[matrix.length - 1 - j][i];
+                matrix[matrix.length - 1 - j][i] = matrix[matrix.length - 1 - i][matrix.length - 1 - j];
+                matrix[matrix.length - 1 - i][matrix.length - 1 - j] = matrix[j][matrix.length - 1 - i];
+                matrix[j][matrix.length - 1 - i] = temp;
             }
-
-            while (j < colEnd) {
-                int temp = matrix[rowStart][j];
-                matrix[rowStart][j] = swapValue;
-                swapValue = temp;
-                j++;
-            }
-
-            cycle++;
-            rowEnd--;
-            colEnd--;
-            rowStart++;
-            colStart++;
-
         }
     }
-
-    private static int swap(int[][] matrix, int i, int j, int swapValue) {
-        int temp = matrix[i][j];
-        matrix[i][j] = swapValue;
-        return temp;
-    }
-
 }
 //leetcode submit region end(Prohibit modification and deletion)
