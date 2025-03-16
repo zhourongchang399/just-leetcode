@@ -63,15 +63,33 @@
  */
 class Solution {
     public ListNode reverseList(ListNode head) {
-        ListNode result = null;
-        ListNode temp = null;
-        while (head != null) {
-            temp = result;
-            result = head;
-            head = head.next;
-            result.next = temp;
-        }
-        return result;
+        // 遍历
+//        ListNode result = null;
+//        ListNode temp = null;
+//        while (head != null) {
+//            temp = result;
+//            result = head;
+//            head = head.next;
+//            result.next = temp;
+//        }
+//        return result;
+
+        // 递归
+
+        // 只要递归到最后一个节点
+        if(head == null || head.next == null) return head;
+
+        // 获取下一个节点
+        ListNode nextHead = reverseList(head.next);
+
+        // 当前节点和下一节点形成一个环
+        head.next.next = head;
+
+        // 破圈
+        head.next = null;
+
+        // 返回头结点
+        return nextHead;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
