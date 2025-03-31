@@ -39,25 +39,29 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
-        List<Integer> list = Arrays.stream(nums).boxed().collect(Collectors.toList());
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
-        for (int i = 0; i < nums.length; i++) {
-            List<Integer> tempList = list.stream().filter(value -> value == )
-            permute();
-        }
-        return myPermute(nums, 0);
+        if (nums == null || nums.length == 0) return new ArrayList<>();
+        boolean[] used = new boolean[nums.length];
+        return myPermute(nums, used);
     }
 
-    private List<List<Integer>> myPermute(int[] nums, int i) {
+    public List<List<Integer>> myPermute(int[] nums, boolean[] used) {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
-        for (int j = 0; j < nums.length; j++) {
-            if (i == j) {continue;}
-            List<List<Integer>> lists = myPermute(nums, j);
-            for (List<Integer> list : lists) {
-                list.add(0, nums[j]);
-                res.add(list);
-            }
+        if (nums == null || nums.length == 0){
+            res.add(new ArrayList<>());
+            return res;
         }
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i]) continue;
+            int current = nums[i];
+            used[i] = true;
+            List<List<Integer>> permute = myPermute(nums, used);
+            permute.forEach(list -> {
+                list.add(0, current);
+                res.add(list);
+            });
+            used[i] = false;
+        }
+        return res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
