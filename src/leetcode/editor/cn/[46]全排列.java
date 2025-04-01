@@ -37,31 +37,35 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * @author: Zc
+ * @description: 回溯，找出当前路径所有答案，没有则回溯上一步，再继续搜索。
+ * @date: 2025/4/1 13:20
+ * @param null
+ * @return
+ */
 class Solution {
     public List<List<Integer>> permute(int[] nums) {
         if (nums == null || nums.length == 0) return new ArrayList<>();
         boolean[] used = new boolean[nums.length];
-        return myPermute(nums, used);
+        List<List<Integer>> res = new ArrayList<List<Integer>>();
+        List<Integer> currentList = new ArrayList<>();
+        myPermute(nums, used, res, currentList);
+        return res;
     }
 
-    public List<List<Integer>> myPermute(int[] nums, boolean[] used) {
-        List<List<Integer>> res = new ArrayList<List<Integer>>();
-        if (nums == null || nums.length == 0){
-            res.add(new ArrayList<>());
-            return res;
+    public void myPermute(int[] nums, boolean[] used, List<List<Integer>> res, List<Integer> currentList) {
+        if (currentList.size() == nums.length){
+            res.add(new ArrayList<>(currentList));
         }
         for (int i = 0; i < nums.length; i++) {
             if (used[i]) continue;
-            int current = nums[i];
             used[i] = true;
-            List<List<Integer>> permute = myPermute(nums, used);
-            permute.forEach(list -> {
-                list.add(0, current);
-                res.add(list);
-            });
+            currentList.add(nums[i]);
+            myPermute(nums, used, res, currentList);
+            currentList.remove(currentList.size() - 1);
             used[i] = false;
         }
-        return res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
