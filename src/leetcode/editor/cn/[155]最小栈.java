@@ -57,7 +57,7 @@
 class MinStack {
 
     Node head = null;
-    LinkedList<Node> minStack = null;
+    LinkedList<Integer> minStack = null;
 
     class Node {
         int val;
@@ -70,22 +70,18 @@ class MinStack {
 
     public MinStack() {
         minStack = new LinkedList<>();
-        minStack.push(new Node(Integer.MAX_VALUE));
+        minStack.push(Integer.MAX_VALUE);
     }
 
     public void push(int val) {
         Node newNode = new Node(val);
         newNode.next = head;
         head = newNode;
-        if (minStack.peek().val >= val) {
-            minStack.push(newNode);
-        }
+        minStack.push(Math.min(minStack.peek(), val));
     }
 
     public void pop() {
-        if (this.head == minStack.peek()) {
-            minStack.pop();
-        }
+        minStack.pop();
         head = head.next;
     }
 
@@ -94,7 +90,7 @@ class MinStack {
     }
 
     public int getMin() {
-        return minStack.peek().val;
+        return minStack.peek();
     }
 }
 
