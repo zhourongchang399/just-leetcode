@@ -38,56 +38,34 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 /**
  * @author: Zc
- * @description: 遍历数组记录每个字符的区间，然后对区间列表排序，最后合并区间，计算每个区间的长度。
+ * @description: 遍历字符串记录每个字符的末尾位置，然后以字符串头字符作为子字符串开始位置 start，其最后出现位置为子字符串末尾位置 end；
+ *               当 [start, end] 区间出现新的字符的末尾位置超过 end 则更新，知道 current 走到 end，记录结果并更新 start = end + 1;
+ *               不断遍历字符串，知道末尾，即可得到答案。
  * @date: 2025/4/8 16:13
  * @param null
  * @return
  */
 class Solution {
     public List<Integer> partitionLabels(String s) {
-        HashMap<Character, int[]> map = new HashMap<>();
+        HashMap<Character, Integer> map = new HashMap<>();
         List<Integer> res = new ArrayList<>();
-        ArrayList<int[]> list = new ArrayList<>();
-        charRange(s, map);
-
-        list.addAll(map.values());
-        list.sort((a, b) -> Integer.compare(a[0], b[0]));
-
-        ArrayList<int[]> merged = new ArrayList<>();
-        for (int[] right : list) {
-            if (merged.isEmpty()) {
-                merged.add(right);
-            } else {
-                int[] left = merged.get(merged.size() - 1);
-                if ((left[0] < right[0] && left[1] > right[0]) || (left[0] < right[1] && left[1] > right[1])) {
-                    int[] newArr = new int[2];
-                    newArr[0] = Math.min(left[0], right[0]);
-                    newArr[1] = Math.max(left[1], right[1]);
-                    merged.remove(merged.size() - 1);
-                    merged.add(newArr);
-                } else {
-                    merged.add(right);
-                }
-            }
-        }
-
-        merged.forEach(arr -> {
-            res.add(arr[1] - arr[0] + 1);
-        });
-        return res;
-    }
-
-    private static void charRange(String s, HashMap<Character, int[]> map) {
         for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (map.containsKey(c)) {
-                int[] arr = map.get(c);
-                arr[1] = i;
-                map.put(c, arr);
-            } else {
-                map.put(c, new int[]{i, i});
-            }
+            map.put(s.charAt(i), i);
         }
+
+        int start = 0;
+        int current = 0;
+        int end = map.get(s.charAt(start));
+        while (current < s.length()) {
+            end = Math.max(end, map.get(s.charAt(current)));
+            if (current == end) {
+                res.add(end - start + 1);
+                start = end + 1;
+            }
+            current++;
+        }
+
+        return res;
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
