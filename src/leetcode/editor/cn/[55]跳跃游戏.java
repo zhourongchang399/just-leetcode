@@ -35,30 +35,20 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 /**
  * @author: Zc
- * @description: 回溯法，搜索全部可达路径并通过剪枝（当前位置不行则置为零）减少重复路径，复杂度 O（n^2）。
+ * @description: 贪心算法，维护一个最远可达边界，通过遍历最远可达边界内的数组并动态更新最远可达边界，假如途中最远可达边界到达末尾则返回 True,否则继续遍历数组直到最远可达边界，若为中间则返回 False。
  * @date: 2025/4/8 13:57
  * @param null
  * @return
  */
 class Solution {
     public boolean canJump(int[] nums) {
-        if (nums.length == 0 || nums.length == 1) return true;
-        return myCanJump(nums, 0);
-    }
-
-    private boolean myCanJump(int[] nums, int index) {
-        if (index >= nums.length - 1) {
-            return true;
-        } else if (nums[index] == 0) {
-            return false;
-        }
-
-        for (int i = nums[index]; i > 0; i--) {
-            if (myCanJump(nums, index + i)) {
+        int len = 0;
+        for (int i = 0; i <= len; i++) {
+            len = Math.max(len, i + nums[i]);
+            if (len >= nums.length - 1) {
                 return true;
             }
         }
-        nums[index] = 0;
         return false;
     }
 }
