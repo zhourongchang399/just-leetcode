@@ -47,7 +47,7 @@
 /**
  * @author: Zc
  * @description: 采用字典树记录字典，当前位置 targetIndex 到 length - 1 的子字符串满足单词拆分则 dp[targetIndex] = true, 即对当前位置，i for targetIndex to length - 1;
- *               dp[targetIndex] = tree.search(subString(targetIndex, i)) && dp[i + 1]。
+ *               dp[targetIndex] = tree.search(subString(targetIndex, i)) && dp[i + 1]。也可直接使用 HashSet 记录字典，简化构建字典树，和检索拆分单词是否存在的步骤。
  * @date: 2025/4/10 23:20
  * @param null
  * @return
@@ -86,16 +86,21 @@ class Solution {
     }
 
     public boolean wordBreak(String s, List<String> wordDict) {
-        Dictionary dict = new Dictionary();
+//        Dictionary dict = new Dictionary();
+//        for (String word : wordDict) {
+//            dict.addWord(word);
+//        }
+
+        HashSet<String> set = new HashSet<>();
         for (String word : wordDict) {
-            dict.addWord(word);
+            set.add(word);
         }
 
         Boolean[] dp = new Boolean[s.length() + 1];
         dp[s.length()] = true;
         for (int i = s.length() - 1; i >= 0; i--) {
             for (int j = i + 1; j <= s.length(); j++) {
-                dp[i] = dp[j] && dict.search(s.substring(i, j));
+                dp[i] = dp[j] && set.contains(s.substring(i, j));
                 if (dp[i]) {
                     break;
                 }
