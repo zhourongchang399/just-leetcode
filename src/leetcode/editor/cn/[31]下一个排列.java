@@ -53,9 +53,38 @@
 
 
 //leetcode submit region begin(Prohibit modification and deletion)
+/**
+ * @author: Zc
+ * @description: 下一个排列即从尾到头找到一个相对较小的数，同时在该位置到末尾中从头到尾再找一个比相对较小的数大一点的数为较大数，二者互换，并对新的较大数后的序列升序排列；
+ *               较小数的意思是，找到第一个比末尾某一个连续数小的数，这样代表其可以与他的连续数互换以达到要求，同时为了较大数能够尽可能小，所以需要确认是否还有一个较大数是与较小数最切近的。
+ * @date: 2025/4/13 23:00
+ * @param null
+ * @return
+ */
 class Solution {
     public void nextPermutation(int[] nums) {
-        
+        int minIndex = -1;
+        int maxIndex = -1;
+        for (int i = nums.length - 2; i >= 0 ; i--) {
+            if (nums[i] < nums[i + 1]) {
+                minIndex = i;
+                break;
+            }
+        }
+        if (minIndex == -1) {
+            Arrays.sort(nums);
+            return;
+        }
+        for (int i = nums.length - 1; i >= minIndex + 1; i--) {
+            if (nums[i] > nums[minIndex]) {
+                maxIndex = i;
+                break;
+            }
+        }
+        int temp = nums[maxIndex];
+        nums[maxIndex] = nums[minIndex];
+        nums[minIndex] = temp;
+        Arrays.sort(nums, minIndex + 1, nums.length);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
