@@ -39,7 +39,7 @@
 //leetcode submit region begin(Prohibit modification and deletion)
 /**
  * @author: Zc
- * @description: 通过递归回溯穷举所有可能。
+ * @description: 通过递归回溯穷举所有可能。剪枝（后续不足 k 位时，当前循环可以结束）
  * @date: 2025/4/24 14:28
  * @param null
  * @return
@@ -57,7 +57,7 @@ class Solution {
             res.add(new ArrayList<>(path));
             return;
         }
-        for (int i = index; i <= n; i++) {
+        for (int i = index; i <= n - k + 1; i++) {
             path.add(i);
             myCombine(n, k - 1, i + 1, path, res);
             path.remove(path.size() - 1);
