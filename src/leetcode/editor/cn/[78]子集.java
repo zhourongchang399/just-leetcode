@@ -44,9 +44,7 @@ class Solution {
         List<List<Integer>> res = new ArrayList<List<Integer>>();
         res.add(new ArrayList<>());
         List<Integer> list = new ArrayList<>();
-        for (int i = 0; i < nums.length; i++) {
-            mySubsets(i, list, nums, res);
-        }
+        mySubsets(0, list, nums, res);
         return res;
     }
 
@@ -54,12 +52,12 @@ class Solution {
         if (index == nums.length) {
             return;
         }
-        list.add(nums[index]);
-        res.add(new ArrayList<>(list));
-        for (int i = index + 1; i < nums.length; i++) {
-            mySubsets(i, list, nums, res);
+        for (int i = index; i < nums.length; i++) {
+            list.add(nums[i]);
+            res.add(new ArrayList<>(list));
+            mySubsets(i + 1, list, nums, res);
+            list.remove(list.size() - 1);
         }
-        list.remove(list.size() - 1);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
