@@ -62,9 +62,6 @@ class Solution {
             }
             myFindSubsequences(nums, nums[i], i + 1, path, res);
             path.remove(path.size() - 1);
-            while (i + 1 < nums.length && nums[i] == nums[i + 1]) {
-                i++;
-            }
         }
     }
 }
