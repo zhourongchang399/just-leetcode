@@ -41,26 +41,76 @@
  */
 class Solution {
     public boolean canPartition(int[] nums) {
-        if (nums.length == 1) return false;
         int sum = 0;
         int max = Integer.MIN_VALUE;
-        for (int i = 0; i < nums.length; i++) {
-            sum += nums[i];
-            max = Math.max(max, nums[i]);
+        for (int num : nums) {
+            sum += num;
+            max = Math.max(max, num);
         }
-        int target = sum / 2;
         if (sum % 2 != 0) return false;
-        if (max > target) return false;
+        if (max > sum / 2) return false;
 
-        boolean[] dp = new boolean[target + 1];
-        dp[0] = true;
-        for (int i = 0; i < nums.length; i++) {
+        int target = sum / 2;
+        int[] dp = new int[target + 1];
+
+        for (int i = 0; i <= nums.length - 1; i++) {
             for (int j = target; j >= nums[i]; j--) {
-                dp[j] = dp[j] || dp[j - nums[i]];
+                dp[j] = Math.max(dp[j], dp[j - nums[i]] + nums[i]);
+                if (dp[j] == target) return true;
             }
         }
 
-        return dp[target];
+        return false;
+
+//        int sum = 0;
+//        for (int i = 0; i < nums.length; i++) {
+//            sum += nums[i];
+//        }
+//        if (sum % 2 != 0) return false;
+//        int[][] dp = new int[nums.length][(sum / 2) + 1];
+//        if (nums[0] == sum / 2) {
+//            return true;
+//        }
+//
+//        for (int i = 0; i <= sum / 2; i++) {
+//            dp[0][i] = nums[0] <= i ? nums[0] : 0;
+//        }
+//
+//        for (int i = 1; i < nums.length; i++) {
+//            for (int j = 1; j <= sum / 2; j++) {
+//                if (nums[i] > j) {
+//                    dp[i][j] = dp[i - 1][j];
+//                } else {
+//                    dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - nums[i]] + nums[i]);
+//                }
+//                if (dp[i][j] == sum / 2) {
+//                    return true;
+//                }
+//            }
+//        }
+//
+//        return false;
+
+//        if (nums.length == 1) return false;
+//        int sum = 0;
+//        int max = Integer.MIN_VALUE;
+//        for (int i = 0; i < nums.length; i++) {
+//            sum += nums[i];
+//            max = Math.max(max, nums[i]);
+//        }
+//        int target = sum / 2;
+//        if (sum % 2 != 0) return false;
+//        if (max > target) return false;
+//
+//        boolean[] dp = new boolean[target + 1];
+//        dp[0] = true;
+//        for (int i = 0; i < nums.length; i++) {
+//            for (int j = target; j >= nums[i]; j--) {
+//                dp[j] = dp[j] || dp[j - nums[i]];
+//            }
+//        }
+//
+//        return dp[target];
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
