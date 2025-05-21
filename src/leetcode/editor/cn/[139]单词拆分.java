@@ -91,10 +91,7 @@ class Solution {
 //            dict.addWord(word);
 //        }
 
-        HashSet<String> set = new HashSet<>();
-        for (String word : wordDict) {
-            set.add(word);
-        }
+        HashSet<String> set = new HashSet<>(wordDict);
 
         Boolean[] dp = new Boolean[s.length() + 1];
         dp[s.length()] = true;
