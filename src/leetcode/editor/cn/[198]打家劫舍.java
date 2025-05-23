@@ -44,14 +44,12 @@
  */
 class Solution {
     public int rob(int[] nums) {
-        if(nums.length == 1) return nums[0];
-        int[] profit = new int[nums.length];
-        for(int i = nums.length - 1; i >=0; i--) {
-            int afterOneProfit = i + 2 < nums.length ? profit[i + 2] : 0;
-            int afterTwoProfit = i + 3 < nums.length ? profit[i + 3] : 0;
-            profit[i] = nums[i] + Math.max(afterOneProfit, afterTwoProfit);
+        if (nums.length == 1) return nums[0];
+        int[] dp = new int[nums.length];
+        for (int i = nums.length - 1; i >= 0; i--) {
+            dp[i] = nums[i] + Math.max(i + 2 < nums.length ? dp[i + 2] : 0, i + 3 < nums.length ? dp[i + 3] : 0);
         }
-        return Math.max(profit[0], profit[1]);
+        return Math.max(dp[0], dp[1]);
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
